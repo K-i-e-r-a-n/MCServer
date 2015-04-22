@@ -2106,7 +2106,7 @@ void cProtocol180::HandlePacketLoginStart(cByteBuffer & a_ByteBuffer)
 
 void cProtocol180::HandlePacketAnimation(cByteBuffer & a_ByteBuffer)
 {
-	m_Client->HandleAnimation(1);  // Packet exists solely for arm-swing notification
+	m_Client->HandleAnimation(0);  // Packet exists solely for arm-swing notification
 }
 
 
@@ -2675,7 +2675,7 @@ void cProtocol180::ParseItemMetadata(cItem & a_Item, const AString & a_Metadata)
 	if (!NBT.IsValid())
 	{
 		AString HexDump;
-		CreateHexDump(HexDump, a_Metadata.data(), a_Metadata.size(), 16);
+		CreateHexDump(HexDump, a_Metadata.data(), std::max<size_t>(a_Metadata.size(), 1024), 16);
 		LOGWARNING("Cannot parse NBT item metadata: (" SIZE_T_FMT " bytes)\n%s", a_Metadata.size(), HexDump.c_str());
 		return;
 	}
